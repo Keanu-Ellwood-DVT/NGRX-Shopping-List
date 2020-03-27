@@ -1,0 +1,16 @@
+
+<section id="product-list-container">
+  <div>
+    <h2>
+      Product List
+    </h2>
+  </div>
+  <div id="product-list">
+    <mat-selection-list>
+      <mat-list-option *ngFor="let product of productListItems">
+        {{product}}
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+</section>
+
