@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist\\NGRX-Shopping-List",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
