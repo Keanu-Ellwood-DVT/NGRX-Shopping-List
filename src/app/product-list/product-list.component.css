@@ -1,0 +1,56 @@
+#product-list-container, #product-list-actions{
+  width: 100%;
+  align-items: center;
+}
+#product-list-actions{
+  margin-top: 10px;
+}
+
+#product-list{
+  width: 100%;
+}
+
+#products-container{
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+mat-list-option{
+  margin-bottom: 40px;
+}
+
+mat-selection-list{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.fill-space {
+  flex: 1 1 auto;
+}
+
+.panelOptions{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.matButton{
+ background-color: transparent;
+ padding: 0;
+ border: 0;
+}
+
+.panelOptions div{
+  width: 100%;
+  display: flex;
+  align-items: center;
+ }
+
+.checked-true{
+  text-decoration: line-through;
+  text-decoration-line: line-through;
+  text-decoration-color: red;
+}

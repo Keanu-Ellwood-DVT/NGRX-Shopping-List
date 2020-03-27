@@ -1,16 +1,82 @@
+<section id="products-container">
+  <section id="product-list-container">
+    <div>
+      <h2>
+        Product List
+      </h2>
+    </div>
+    <div id="product-list">
+      <div>
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+            *ngFor="let product of productListItems$ | async">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-checkbox
+                  [checked]="product?.complete"
+                  (change)="editProductCheck(product, $event)">
+                  <p [class.checked-true]="product?.complete">
+                    {{ product?.name }}
+                  </p>
+                </mat-checkbox>
+              </mat-panel-title>
+              <mat-panel-description> </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="panelOptions">
+              <div>
+                <mat-form-field>
+                  <mat-label>Edit product</mat-label>
+                  <input matInput type="text" [(ngModel)]="editedProductName" />
+                  <button
+                    class="matButton"
+                    mat-button
+                    *ngIf="editedProductName"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Add"
+                    (click)="editProductName(product)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+              <div>
+                <span> Delete {{ product.name }} from shopping list.</span>
+                <span class="fill-space"></span>
+                <button
+                  class="matButton"
+                  mat-button
+                  matSuffix
+                  mat-icon-button
+                  aria-label="Delete"
+                  (click)="deleteProduct(product.id)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+  </section>
 
-<section id="product-list-container">
-  <div>
-    <h2>
-      Product List
-    </h2>
-  </div>
-  <div id="product-list">
-    <mat-selection-list>
-      <mat-list-option *ngFor="let product of productListItems">
-        {{product}}
-      </mat-list-option>
-    </mat-selection-list>
-  </div>
+  <section id="product-list-actions">
+    <mat-form-field>
+      <mat-label>Add New Product</mat-label>
+      <input matInput type="text" [(ngModel)]="newProduct.name" />
+      <button
+        class="matButton"
+        mat-button
+        *ngIf="newProduct.name"
+        matSuffix
+        mat-icon-button
+        aria-label="Add"
+        (click)="addProduct()"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+    </mat-form-field>
+  </section>
 </section>
-
