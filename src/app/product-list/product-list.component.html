@@ -16,7 +16,7 @@
               <mat-panel-title>
                 <mat-checkbox
                   [checked]="product?.complete"
-                  (change)="editProductCheck(product, $event)">
+                  (change)="onProductCheckChanged(product, $event)">
                   <p [class.checked-true]="product?.complete">
                     {{ product?.name }}
                   </p>
@@ -36,7 +36,7 @@
                     matSuffix
                     mat-icon-button
                     aria-label="Add"
-                    (click)="editProductName(product)">
+                    (click)="onEditProductName(product)">
                     <mat-icon>edit</mat-icon>
                   </button>
                 </mat-form-field>
@@ -50,7 +50,7 @@
                   matSuffix
                   mat-icon-button
                   aria-label="Delete"
-                  (click)="deleteProduct(product.id)" >
+                  (click)="onRemoveProduct(product)" >
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
@@ -72,7 +72,7 @@
         matSuffix
         mat-icon-button
         aria-label="Add"
-        (click)="addProduct()"
+        (click)="addNewProduct()"
       >
         <mat-icon>save</mat-icon>
       </button>

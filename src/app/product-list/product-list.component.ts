@@ -1,15 +1,18 @@
 import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { Product } from "src/store/models/Product";
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import { AppState } from "src/store/models/app-state.model";
 import { v4 as uuid } from "uuid";
+import { MatCheckboxChange } from "@angular/material/checkbox";
 import {
-  AddItemAction,
-  DeleteItemAction,
-  EditItemAction
+  getProductsAction,
+  getProductsCompleteAction,
+  addProductAction,
+  editProductAction,
+  deleteProductAction
 } from "src/store/actions/products.actions";
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { selectListItems } from "src/store/reducers/products.reducer";
 @Component({
   selector: "app-product-list",
   templateUrl: "./product-list.component.html",
@@ -17,44 +20,47 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class ProductListComponent implements OnInit {
   productListItems$: Observable<Product[]>;
-  newProduct: Product = { id: "", name: "", complete: false};
+  newProduct: Product = { id: "", name: "", complete: false };
   editedProductName: string;
 
   panelOpenState = false;
-  //checked = false;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
+    // this.store.dispatch(getProductsAction());
+    // this.productListItems$ = this.store.pipe(select(selectListItems));
     this.productListItems$ = this.store.select(store => store.productlist);
   }
 
-  addProduct() {
+  addNewProduct() {
     this.newProduct.id = uuid();
-    this.store.dispatch(new AddItemAction(this.newProduct));
+    this.newProduct.complete = false;
+    this.store.dispatch(addProductAction({ payload: this.newProduct }));
     this.newProduct = { id: "", name: "", complete: false };
   }
 
-  deleteProduct(id: string) {
-    this.store.dispatch(new DeleteItemAction({ id }));
+  onRemoveProduct(productToDelete: Product) {
+    this.store.dispatch(deleteProductAction({ payload: productToDelete }));
   }
 
-  editProductName(productToUpdate: Product) {
+  onEditProductName(productToUpdate: Product) {
     this.store.dispatch(
-      new EditItemAction({updatedProduct:{
-        ...productToUpdate,
-        name: this.editedProductName
-      }})
+      editProductAction({
+        payload: { ...productToUpdate, name: this.editedProductName }
+      })
     );
     this.editedProductName = "";
   }
 
-  editProductCheck(productToUpdate: Product, checkedEvent: MatCheckboxChange) {
+  onProductCheckChanged(
+    productToUpdate: Product,
+    checkedEvent: MatCheckboxChange
+  ) {
     this.store.dispatch(
-      new EditItemAction({updatedProduct:{
-        ...productToUpdate,
-        complete: checkedEvent.checked
-      }})
+      editProductAction({
+        payload: { ...productToUpdate, complete: checkedEvent.checked }
+      })
     );
   }
 }

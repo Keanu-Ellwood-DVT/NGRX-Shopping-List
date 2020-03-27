@@ -1,28 +1,24 @@
-import { Action } from '@ngrx/store';
-import { Product } from 'src/store/models/Product';
+import { Action, createAction, props } from "@ngrx/store";
+import { Product } from "src/store/models/Product";
 
-export enum ProductListActionTypes {
-  ADD_PRODUCT = '[PRODUCT-LIST] Add Product',
-  DELETE_PRODUCT = '[PRODUCT-LIST] Delete Product',
-  EDIT_PRODUCT = '[PRODUCT-LIST] Edit Product'
-}
+export const getProductsAction = createAction("[PRODUCT-LIST] Get Products");
 
-export class AddItemAction implements Action {
-  readonly type = ProductListActionTypes.ADD_PRODUCT
+export const getProductsCompleteAction = createAction(
+  "[Shopping] Get Products Completed"
+  , props<{ payload: Product[] }>()
+);
 
-  constructor(public payload: Product) { }
-}
+export const addProductAction = createAction(
+  "[PRODUCT-LIST] Add Product",
+  props<{ payload: Product }>()
+);
 
-export class DeleteItemAction implements Action {
-  readonly type = ProductListActionTypes.DELETE_PRODUCT
+export const deleteProductAction = createAction(
+  "[PRODUCT-LIST] Add Product",
+  props<{ payload: Product }>()
+);
 
-  constructor(public payload: { id: string}) { }
-}
-
-export class EditItemAction implements Action {
-  readonly type = ProductListActionTypes.EDIT_PRODUCT
-
-  constructor(public payload: {updatedProduct: Product}) { }
-}
-
-export type ProductListAction = AddItemAction | DeleteItemAction | EditItemAction
+export const editProductAction = createAction(
+  "[PRODUCT-LIST] Add Product",
+  props<{ payload: Product }>()
+);

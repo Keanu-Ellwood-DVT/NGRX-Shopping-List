@@ -1,0 +1,24 @@
+{
+  "productListItems": [
+    {
+      "id": "1",
+      "name": "Toilet Paper",
+      "complete": false
+    },
+    {
+      "id": "2",
+      "name": "Milk",
+      "complete": false
+    },
+    {
+      "id": "3",
+      "name": "Orange Juice",
+      "complete": false
+    },
+    {
+      "id": "4",
+      "name": "Bread",
+      "complete": false
+    }
+  ]
+}

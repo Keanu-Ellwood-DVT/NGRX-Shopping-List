@@ -1,10 +1,23 @@
 import {
-  ProductListActionTypes,
-  ProductListAction
+  getProductsAction,
+  getProductsCompleteAction,
+  addProductAction,
+  editProductAction,
+  deleteProductAction
 } from "../actions/products.actions";
 import { Product } from "src/store/models/Product";
+import { createReducer, on, createSelector, createFeatureSelector } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
-const initialState: Array<Product> = [
+export interface ProductListState {
+  productListItems: Array<Product>
+}
+
+export const initialState: ProductListState = {
+  productListItems: Array<Product>()
+};
+
+export const initialAppState: Array<Product> = [
   {
     id: "1",
     name: "Toilet Paper",
@@ -27,20 +40,41 @@ const initialState: Array<Product> = [
   }
 ];
 
-export function ProductListReducer(
-  state: Array<Product> = initialState,
-  action: ProductListAction
-) {
-  switch (action.type) {
-    case ProductListActionTypes.ADD_PRODUCT:
-      return [...state, action.payload];
-    case ProductListActionTypes.DELETE_PRODUCT:
-      return state.filter(item => item.id !== action.payload.id);
-    case ProductListActionTypes.EDIT_PRODUCT:
-      return state.map(item => {
-        return item.id === action.payload.updatedProduct.id ? {...action.payload.updatedProduct} : item;
-      });
-    default:
-      return state;
-  }
+const productListReducer = createReducer(
+  initialState,
+  on(getProductsAction, state => ({...state})),
+  on(getProductsCompleteAction, (state, { payload }) => ({
+    ...state,
+    shoppingListItems: [...state.productListItems, ...payload]
+  })),
+  on(addProductAction, (state, { payload }) => ({
+    ...state,
+    shoppingListItems: [...state.productListItems, payload]
+  })),
+  on(deleteProductAction, (state, { payload } ) => {
+    const tempList = state.productListItems.filter(product => product.id !== payload.id);
+    return{
+      ...state,
+      shoppingListItems: [...tempList]
+    }
+  }),
+  on(editProductAction, (state, { payload }) => {
+    const tempList = state.productListItems.map(product => product.id === payload.id ? payload : product);
+    return {
+      ...state,
+      shoppingListItems: [...tempList]
+    };
+  })
+)
+
+export function ProductListReducer(state: ProductListState = initialState, action: Action) {
+  state.productListItems = initialAppState;
+  return productListReducer(state, action);
 }
+
+export const selectFeature = createFeatureSelector<any, ProductListState>('productList');
+
+export const selectListItems = createSelector(
+  selectFeature,
+  (state: ProductListState) => state.productListItems
+);
